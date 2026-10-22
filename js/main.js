@@ -3,13 +3,12 @@
 
   /* ── CONFIG ──────────────────────────────────────────── */
   const SCREENS = [
-    'screen-welcome',
-    'screen-haldi',
-    'screen-sangeet',
-    'screen-vivaah',
-    'screen-reception',
-    'screen-all',
-  ];
+  'screen-welcome',
+  'screen-vivaah',
+  'screen-countdown',
+  'screen-gallery',
+  'screen-all'
+];
   const AUTO_ADVANCE_MS   = 8334;   // 3×8334 + 2×3000 = 31002ms ≈ 31s for first 3 slides (one music play)
   const TRANSITION_MS     = 3000;   // 3.0s — slow, cinematic crossfade
 
@@ -385,4 +384,35 @@
     });
   })();
 
+  /* ── MANOHAR & ANUPAMA WEDDING COUNTDOWN ── */
+(function initWeddingCountdown() {
+  const weddingDate = new Date('2026-11-11T07:00:00+05:30').getTime();
+
+  const daysEl = document.getElementById('cd-days');
+  const hoursEl = document.getElementById('cd-hours');
+  const minutesEl = document.getElementById('cd-minutes');
+  const secondsEl = document.getElementById('cd-seconds');
+  const messageEl = document.getElementById('countdown-message');
+
+  function updateCountdown() {
+    const remaining = weddingDate - Date.now();
+
+    if (remaining <= 0) {
+      daysEl.textContent = '0';
+      hoursEl.textContent = '0';
+      minutesEl.textContent = '0';
+      secondsEl.textContent = '0';
+      messageEl.textContent = 'Today is our special day! ❤️';
+      return;
+    }
+
+    daysEl.textContent = Math.floor(remaining / 86400000);
+    hoursEl.textContent = Math.floor((remaining % 86400000) / 3600000);
+    minutesEl.textContent = Math.floor((remaining % 3600000) / 60000);
+    secondsEl.textContent = Math.floor((remaining % 60000) / 1000);
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+})();
 })();
